@@ -136,19 +136,28 @@ app.get("/movies", function (request, response) {
   response.send(movies);
 });
 
-app.get("/movies/:id", async function (request, response) {
+app.get("/movies/:id", function (request, response) {
   const { id } = request.params;
-  //db.movies.findOne({id:'100'})
-  // const movie = movies.find((mv) => mv.id === id);
-  const movie = await client
-    .db("b40wd")
-    .collection("movies")
-    .findOne({ id: id });
+  console.log(request.params, id);
+  const movie = movies.find((mv) => mv.id == id);
   console.log(movie);
   movie
     ? response.send(movie)
-    : response.status(404).send({ message: "movies not found" });
+    : response.status(404).send({ message: "movie not found" });
 });
+
+// app.get("/movies/:id", async function (request, response) {
+//   const { id } = request.params;
+
+//   const movie = await client
+//     .db("b40wd")
+//     .collection("movies")
+//     .findOne({ id: id });
+//   console.log(movie);
+//   movie
+//     ? response.send(movie)
+//     : response.status(404).send({ message: "movies not found" });
+// });
 
 app.post("/movies", express.json(), async function (request, response) {
   const data = request.body;
